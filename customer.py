@@ -5,9 +5,15 @@ import uuid
 
 T = TypeVar("T")
 
-def from_uuid(uuid: Any) -> uuid:
-    assert isinstance(uuid, uuid) and not isinstance(uuid, bool)
-    return uuid
+
+def from_uuid(x: Any) -> uuid:
+    assert isinstance(x, uuid) and not isinstance(x, str)
+    return x
+
+
+def from_bool(x: Any) -> bool:
+    assert isinstance(x, bool) and not isinstance(x, int)
+    return x
 
 
 def from_int(x: Any) -> int:
@@ -31,7 +37,7 @@ def to_class(c: Type[T], x: Any) -> dict:
 
 
 @dataclass
-class CustomerElement:
+class Customer:
     id: uuid
     year_birth: int
     education: str
@@ -52,18 +58,18 @@ class CustomerElement:
     num_catalog_purchases: int
     num_store_purchases: int
     num_web_visits_month: int
-    accepted_cmp3: int
-    accepted_cmp4: int
-    accepted_cmp5: int
-    accepted_cmp1: int
-    accepted_cmp2: int
-    complain: int
+    accepted_cmp3: bool
+    accepted_cmp4: bool
+    accepted_cmp5: bool
+    accepted_cmp1: bool
+    accepted_cmp2: bool
+    complain: bool
     z_cost_contact: int
     z_revenue: int
-    response: int
+    response: bool
 
     @staticmethod
-    def from_dict(obj: Any) -> 'CustomerElement':
+    def from_dict(obj: Any) -> 'Customer':
         assert isinstance(obj, dict)
         id = from_uuid(obj.get("ID"))
         year_birth = from_int(obj.get("Year_Birth"))
@@ -85,16 +91,16 @@ class CustomerElement:
         num_catalog_purchases = from_int(obj.get("NumCatalogPurchases"))
         num_store_purchases = from_int(obj.get("NumStorePurchases"))
         num_web_visits_month = from_int(obj.get("NumWebVisitsMonth"))
-        accepted_cmp3 = from_int(obj.get("AcceptedCmp3"))
-        accepted_cmp4 = from_int(obj.get("AcceptedCmp4"))
-        accepted_cmp5 = from_int(obj.get("AcceptedCmp5"))
-        accepted_cmp1 = from_int(obj.get("AcceptedCmp1"))
-        accepted_cmp2 = from_int(obj.get("AcceptedCmp2"))
-        complain = from_int(obj.get("Complain"))
+        accepted_cmp3 = from_bool(obj.get("AcceptedCmp3"))
+        accepted_cmp4 = from_bool(obj.get("AcceptedCmp4"))
+        accepted_cmp5 = from_bool(obj.get("AcceptedCmp5"))
+        accepted_cmp1 = from_bool(obj.get("AcceptedCmp1"))
+        accepted_cmp2 = from_bool(obj.get("AcceptedCmp2"))
+        complain = from_bool(obj.get("Complain"))
         z_cost_contact = from_int(obj.get("Z_CostContact"))
         z_revenue = from_int(obj.get("Z_Revenue"))
-        response = from_int(obj.get("Response"))
-        return CustomerElement(id, year_birth, education, marital_status, income, kidhome, teenhome, dt_customer, recency, mnt_wines, mnt_fruits, mnt_meat_products, mnt_fish_products, mnt_sweet_products, mnt_gold_prods, num_deals_purchases, num_web_purchases, num_catalog_purchases, num_store_purchases, num_web_visits_month, accepted_cmp3, accepted_cmp4, accepted_cmp5, accepted_cmp1, accepted_cmp2, complain, z_cost_contact, z_revenue, response)
+        response = from_bool(obj.get("Response"))
+        return Customer(id, year_birth, education, marital_status, income, kidhome, teenhome, dt_customer, recency, mnt_wines, mnt_fruits, mnt_meat_products, mnt_fish_products, mnt_sweet_products, mnt_gold_prods, num_deals_purchases, num_web_purchases, num_catalog_purchases, num_store_purchases, num_web_visits_month, accepted_cmp3, accepted_cmp4, accepted_cmp5, accepted_cmp1, accepted_cmp2, complain, z_cost_contact, z_revenue, response)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -118,21 +124,21 @@ class CustomerElement:
         result["NumCatalogPurchases"] = from_int(self.num_catalog_purchases)
         result["NumStorePurchases"] = from_int(self.num_store_purchases)
         result["NumWebVisitsMonth"] = from_int(self.num_web_visits_month)
-        result["AcceptedCmp3"] = from_int(self.accepted_cmp3)
-        result["AcceptedCmp4"] = from_int(self.accepted_cmp4)
-        result["AcceptedCmp5"] = from_int(self.accepted_cmp5)
-        result["AcceptedCmp1"] = from_int(self.accepted_cmp1)
-        result["AcceptedCmp2"] = from_int(self.accepted_cmp2)
-        result["Complain"] = from_int(self.complain)
+        result["AcceptedCmp3"] = from_bool(self.accepted_cmp3)
+        result["AcceptedCmp4"] = from_bool(self.accepted_cmp4)
+        result["AcceptedCmp5"] = from_bool(self.accepted_cmp5)
+        result["AcceptedCmp1"] = from_bool(self.accepted_cmp1)
+        result["AcceptedCmp2"] = from_bool(self.accepted_cmp2)
+        result["Complain"] = from_bool(self.complain)
         result["Z_CostContact"] = from_int(self.z_cost_contact)
         result["Z_Revenue"] = from_int(self.z_revenue)
-        result["Response"] = from_int(self.response)
+        result["Response"] = from_bool(self.response)
         return result
 
 
-def customer_from_dict(s: Any) -> List[CustomerElement]:
-    return from_list(CustomerElement.from_dict, s)
+def customer_from_dict(s: Any) -> List[Customer]:
+    return from_list(Customer.from_dict, s)
 
 
-def customer_to_dict(x: List[CustomerElement]) -> Any:
-    return from_list(lambda x: to_class(CustomerElement, x), x)
+def customer_to_dict(x: List[Customer]) -> Any:
+    return from_list(lambda x: to_class(Customer, x), x)
