@@ -28,24 +28,23 @@ def read_csv_into_customer_object(file: str) -> list:
     return result
 
 
-def create_record_with_uuid(record: list[customer.Customer]) -> list[customer.Customer]:
+def create_customer_list_with_uuid(records: list[customer.Customer]) -> list[customer.Customer]:
     result: list[customer.Customer] = []
-    for row in record:
-        new_uuid: str = create_UUID()
-        row.id = new_uuid
-        result.append(row)
+    for record in records:
+        record.id = create_UUID()
+        result.append(record)
     return result
 
-# TODO: Add logic to create n records per list record 
+# TODO: Add logic to create n records per list record
 def create_multiple_records(record: list[customer.Customer], multiple: int) -> list[customer.Customer]:
     result: list[customer.Customer] = []
-    inner_result: list[customer.Customer] = []
-    for row in record:
-        inner_result = []
-        for x in range(0, multiple):
-            inner_result = create_record_with_uuid(customer_list[0:x])
+    for i in range(multiple):
+        for row in record:
+            result.append(row)
     return result
 
 
 customer_list = read_csv_into_customer_object('marketing_campaign.csv')
-customer_list = create_record_with_uuid(customer_list)
+customer_records: list[customer.Customer] = create_multiple_records(
+    customer_list, 134)
+print(len(customer_records))
