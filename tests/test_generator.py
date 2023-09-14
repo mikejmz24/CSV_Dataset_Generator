@@ -11,6 +11,19 @@ def init_customer_list() -> list[customer.Customer]:
     yield customer_list
 
 
+@pytest.fixture
+def education_list() -> list[str]:
+    result: list[str] = ['2n cycle', 'Basic', 'Graduation', 'Master', 'PhD']
+    yield result
+
+
+@pytest.fixture
+def marital_status_list() -> list[str]:
+    result: list[str] = ['Absurd', 'Alone', 'Divorced',
+                         'Married', 'Single', 'Together', 'Widow', 'YOLO']
+    yield result
+
+
 def test_create_UUID() -> None:
     assert isinstance(generator.create_UUID(), uuid.UUID)
 
@@ -51,3 +64,39 @@ def test_add_2_records_with_uuid() -> None:
     # n: int = 2
     # result: list[customer.Customer] = []
     pass
+
+
+def test_random_year_2() -> None:
+    result: int = generator.random_year(2000, 2)
+    assert result >= 1998 and result <= 2002
+
+
+def test_random_education(education_list) -> str:
+    options: list[str] = ['2n cycle', 'Basic', 'Graduation', 'Master', 'PhD']
+    result = generator.random_item_from_list(education_list)
+    assert result[0] in options
+    # assert result in options
+
+
+def test_random_marital_status(marital_status_list) -> str:
+    options: list[str] = ['Absurd', 'Alone', 'Divorced',
+                          'Married', 'Single', 'Together', 'Widow', 'YOLO']
+    result = generator.random_item_from_list(marital_status_list)
+    assert result[0] in options
+    # assert result in options
+
+
+def test_random_income_per_education_and_marital_status_2ndcycle_Absurd() -> int:
+    education: str = '2n cycle'
+    marital_status: str = 'Absurd'
+    result: int = generator.random_income_per_education_and_marital_status(
+        education, marital_status)
+    assert result < 3500
+
+
+def test_random_income_per_education_and_marital_status_PhD_Married() -> int:
+    education: str = 'PhD'
+    marital_status: str = 'Married'
+    result: int = generator.random_income_per_education_and_marital_status(
+        education, marital_status)
+    assert result > 4023 and result < 160803
