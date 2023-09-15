@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import datetime
 from typing import Any, List, TypeVar, Callable, Type, cast
 import uuid
 
@@ -45,7 +46,7 @@ class Customer:
     income: int
     kidhome: int
     teenhome: int
-    dt_customer: str
+    dt_customer: datetime.datetime
     recency: int
     mnt_wines: int
     mnt_fruits: int

@@ -25,6 +25,25 @@ def marital_status_list() -> list[str]:
     yield result
 
 
+def create_customer(items: list[customer.Customer], element: int = 0) -> customer.Customer:
+    return customer.Customer(items[element].id, items[element].year_birth, items[element].education, items[element].marital_status,
+                             items[element].income, items[element].kidhome, items[
+        element].teenhome, items[element].dt_customer,
+        items[element].recency, items[element].mnt_wines, items[
+        element].mnt_fruits, items[element].mnt_meat_products,
+        items[element].mnt_fish_products, items[
+        element].mnt_sweet_products, items[element].mnt_gold_prods,
+        items[element].num_deals_purchases, items[
+        element].num_web_purchases, items[element].num_catalog_purchases,
+        items[element].num_store_purchases, items[
+        element].num_web_visits_month, items[element].accepted_cmp3,
+        items[element].accepted_cmp4, items[
+        element].accepted_cmp5, items[element].accepted_cmp1,
+        items[element].accepted_cmp2, items[
+        element].complain, items[element].z_cost_contact,
+        items[element].z_revenue, items[element].response)
+
+
 def test_create_UUID() -> None:
     assert isinstance(generator.create_UUID(), uuid.UUID)
 
@@ -42,23 +61,16 @@ def test_read_csv_record_is_not_empty() -> list:
 def test_record_is_assigned_a_uuid(init_customer_list) -> None:
     init_customer_list = generator.create_customer_list_with_uuid(
         init_customer_list)
-    example_customer: customer.Customer = customer.Customer(init_customer_list[0].id, init_customer_list[0].year_birth, init_customer_list[0].education, init_customer_list[0].marital_status,
-                                                            init_customer_list[0].income, init_customer_list[0].kidhome, init_customer_list[
-                                                                0].teenhome, init_customer_list[0].dt_customer,
-                                                            init_customer_list[0].recency, init_customer_list[0].mnt_wines, init_customer_list[
-                                                                0].mnt_fruits, init_customer_list[0].mnt_meat_products,
-                                                            init_customer_list[0].mnt_fish_products, init_customer_list[
-                                                                0].mnt_sweet_products, init_customer_list[0].mnt_gold_prods,
-                                                            init_customer_list[0].num_deals_purchases, init_customer_list[
-                                                                0].num_web_purchases, init_customer_list[0].num_catalog_purchases,
-                                                            init_customer_list[0].num_store_purchases, init_customer_list[
-                                                                0].num_web_visits_month, init_customer_list[0].accepted_cmp3,
-                                                            init_customer_list[0].accepted_cmp4, init_customer_list[
-                                                                0].accepted_cmp5, init_customer_list[0].accepted_cmp1,
-                                                            init_customer_list[0].accepted_cmp2, init_customer_list[
-                                                                0].complain, init_customer_list[0].z_cost_contact,
-                                                            init_customer_list[0].z_revenue, init_customer_list[0].response)
+    example_customer: customer.Customer = create_customer(init_customer_list)
     assert isinstance(example_customer.id, uuid.UUID)
+
+
+def test_record_is_assigned_a_random_datetime(init_customer_list) -> None:
+    init_customer_list = generator.create_customer_list_with_random_dates(
+        init_customer_list)
+    example_customer: customer.Customer = create_customer(
+        init_customer_list, 2)
+    assert isinstance(example_customer.dt_customer, datetime.datetime)
 
 
 def test_add_2_records_with_uuid() -> None:
@@ -67,9 +79,15 @@ def test_add_2_records_with_uuid() -> None:
     pass
 
 
-def test_random_year_2() -> None:
-    result: int = generator.random_year(2000, 2)
+def test_random_int_2() -> None:
+    result: int = generator.random_int(2000, 2)
     assert result >= 1998 and result <= 2002
+
+
+def test_random_int_returns_positive() -> None:
+    for x in range(50):
+        result: int = generator.random_int(1)
+        assert result >= 0
 
 
 def test_random_education(education_list) -> None:
@@ -111,3 +129,7 @@ def test_date_parse_slash_format() -> None:
 def test_date_parse_hyphen_format() -> None:
     parsed_date: datetime.date = generator.date_parser('13-03-2014')
     assert parsed_date == datetime.datetime(2014, 3, 13)
+
+
+def test_random_boolean() -> None:
+    assert isinstance(generator.random_bool(), bool)
