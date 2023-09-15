@@ -1,3 +1,4 @@
+import datetime
 import uuid
 import csv
 import random
@@ -65,6 +66,10 @@ def create_multiple_records(record: list[customer.Customer], multiple: int) -> l
             row.id = create_UUID()
             result.append(row)
     return result
+
+
+def home_childs(weights: list[int]) -> int:
+    return random.choices([0, 1, 2], weights, k=1)
 
 
 def random_income_per_education_and_marital_status(education: str, marital_status: str) -> int:
@@ -143,32 +148,177 @@ def random_income_per_education_and_marital_status(education: str, marital_statu
             return random.randrange(1000, 3500)
     else:
         return random.randrange(1000, 3500)
-    
+
 
 def random_kid_home_per_education_and_marital_status(education: str, marital: str) -> int:
     if education == '2n Cycle':
         if marital == 'Divorced':
-            return random.choices([0, 1, 2], [61, 39, 0], k=1)
+            return home_childs([61, 39, 0])
         elif marital == 'Married':
-            return random.choices([0, 1, 2], [53, 44, 2], k=1)
+            return home_childs([53, 44, 2])
         elif marital == 'Single':
-            return random.choices([0, 1, 2], [54, 43, 3], k=1)
+            return home_childs([54, 43, 3])
         elif marital == 'Together':
-            return random.choices([0, 1, 2], [49, 51, 0], k=1)
+            return home_childs([49, 51, 0])
         elif marital == 'Widow':
-            return random.choices([0, 1], [80, 20], k=1)
+            return home_childs([80, 20, 0])
         else:
-            return 0        
+            return 0
     elif education == 'Basic':
-        pass
+        if marital == 'Divorced':
+            return home_childs([0, 100, 0])
+        elif marital == 'Married':
+            return home_childs([50, 50, 0])
+        elif marital == 'Single':
+            return home_childs([17, 83, 0])
+        elif marital == 'Together':
+            return home_childs([42, 57, 0])
+        elif marital == 'Widow':
+            return home_childs([100, 0, 0])
+        else:
+            return 0
     elif education == 'Graduation':
-        pass
+        if marital == 'Absurd':
+            return home_childs([100, 0, 0])
+        elif marital == 'Alone':
+            return home_childs([0, 100, 0])
+        elif marital == 'Divorced':
+            return home_childs([63, 34, 3])
+        elif marital == 'Married':
+            return home_childs([57, 41, 2])
+        elif marital == 'Single':
+            return home_childs([57, 42, 1])
+        elif marital == 'Together':
+            return home_childs([56, 41, 3])
+        elif marital == 'Widow':
+            return home_childs([69, 31, 0])
+        else:
+            return 0
     elif education == 'Master':
-        pass
+        if marital == 'Absurd':
+            return home_childs([100, 0, 0])
+        elif marital == 'Alone':
+            return home_childs([100, 0, 0])
+        elif marital == 'Divorced':
+            return home_childs([54, 46, 0])
+        elif marital == 'Married':
+            return home_childs([55, 42, 3])
+        elif marital == 'Single':
+            return home_childs([55, 39, 7])
+        elif marital == 'Together':
+            return home_childs([59, 41, 0])
+        elif marital == 'Widow':
+            return home_childs([83, 17, 0])
+        else:
+            return 0
     elif education == 'PhD':
-        pass
+        if marital == 'Alone':
+            return home_childs([100, 0, 0])
+        elif marital == 'Divorced':
+            return home_childs([60, 40, 0])
+        elif marital == 'Married':
+            return home_childs([61, 36, 3])
+        elif marital == 'Single':
+            return home_childs([61, 36, 3])
+        elif marital == 'Together':
+            return home_childs([62, 34, 3])
+        elif marital == 'Widow':
+            return home_childs([83, 17, 0])
+        elif marital == 'YOLO':
+            return home_childs([100, 0, 0])
+        else:
+            return 0
     else:
-        return 
+        return 0
+
+
+def random_teen_home_per_education_and_marital_status(education: str, marital: str) -> int:
+    if education == '2n Cycle':
+        if marital == 'Divorced':
+            return home_childs([52, 48, 0])
+        elif marital == 'Married':
+            return home_childs([63, 36, 1])
+        elif marital == 'Single':
+            return home_childs([59, 41, 0])
+        elif marital == 'Together':
+            return home_childs([60, 40, 0])
+        elif marital == 'Widow':
+            return home_childs([40, 60, 0])
+        else:
+            return 0
+    elif education == 'Basic':
+        if marital == 'Divorced':
+            return home_childs([100, 0, 0])
+        elif marital == 'Married':
+            return home_childs([95, 5, 0])
+        elif marital == 'Single':
+            return home_childs([83, 17, 0])
+        elif marital == 'Together':
+            return home_childs([93, 7, 0])
+        elif marital == 'Widow':
+            return home_childs([100, 0, 0])
+        else:
+            return 0
+    elif education == 'Graduation':
+        if marital == 'Absurd':
+            return home_childs([100, 0, 0])
+        elif marital == 'Alone':
+            return home_childs([100, 0, 0])
+        elif marital == 'Divorced':
+            return home_childs([44, 55, 2])
+        elif marital == 'Married':
+            return home_childs([52, 45, 3])
+        elif marital == 'Single':
+            return home_childs([62, 37, 2])
+        elif marital == 'Together':
+            return home_childs([50, 48, 2])
+        elif marital == 'Widow':
+            return home_childs([40, 60, 0])
+        else:
+            return 0
+    elif education == 'Master':
+        if marital == 'Absurd':
+            return home_childs([100, 0, 0])
+        elif marital == 'Alone':
+            return home_childs([0, 100, 0])
+        elif marital == 'Divorced':
+            return home_childs([49, 51, 0])
+        elif marital == 'Married':
+            return home_childs([46, 50, 4])
+        elif marital == 'Single':
+            return home_childs([64, 35, 1])
+        elif marital == 'Together':
+            return home_childs([43, 56, 1])
+        elif marital == 'Widow':
+            return home_childs([42, 50, 8])
+        else:
+            return 0
+    elif education == 'PhD':
+        if marital == 'Alone':
+            return home_childs([0, 100, 0])
+        elif marital == 'Divorced':
+            return home_childs([35, 58, 8])
+        elif marital == 'Married':
+            return home_childs([44, 54, 2])
+        elif marital == 'Single':
+            return home_childs([55, 40, 5])
+        elif marital == 'Together':
+            return home_childs([44, 51, 5])
+        elif marital == 'Widow':
+            return home_childs([29, 71, 0])
+        elif marital == 'YOLO':
+            return home_childs([0, 100, 0])
+        else:
+            return 0
+    else:
+        return 0
+
+
+def date_parser(date_string: str) -> datetime.date:
+    format: str = '%d/%m/%y'
+    if '-' in date_string:
+        format: str = '%d-%m-%Y'
+    return datetime.datetime.strptime(date_string, format)
 
 
 customer_list = read_csv_into_customer_object('marketing_campaign.csv')
@@ -181,3 +331,12 @@ customer_records: list[customer.Customer] = create_multiple_records(
 #         print(f'{record.id}')
 
 # print(random_income_per_education_and_marital_status('2n cycle', 'Absurd'))
+
+def random_date(start: datetime.datetime, end: datetime.datetime) -> datetime.datetime:
+    delta: datetime.timedelta = end - start
+    int_delta: int = (delta.days * 24 * 60 * 60) + delta.seconds
+    random_second: int = random.randrange(int_delta)
+    return start + datetime.timedelta(seconds=random_second)
+
+
+print(random_date(datetime.datetime(2012, 9, 4), datetime.datetime.today()))

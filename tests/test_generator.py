@@ -2,6 +2,7 @@ import generator
 import pytest
 import customer
 import uuid
+import datetime
 
 
 @pytest.fixture
@@ -71,14 +72,14 @@ def test_random_year_2() -> None:
     assert result >= 1998 and result <= 2002
 
 
-def test_random_education(education_list) -> str:
+def test_random_education(education_list) -> None:
     options: list[str] = ['2n cycle', 'Basic', 'Graduation', 'Master', 'PhD']
     result = generator.random_item_from_list(education_list)
     assert result[0] in options
     # assert result in options
 
 
-def test_random_marital_status(marital_status_list) -> str:
+def test_random_marital_status(marital_status_list) -> None:
     options: list[str] = ['Absurd', 'Alone', 'Divorced',
                           'Married', 'Single', 'Together', 'Widow', 'YOLO']
     result = generator.random_item_from_list(marital_status_list)
@@ -86,7 +87,7 @@ def test_random_marital_status(marital_status_list) -> str:
     # assert result in options
 
 
-def test_random_income_per_education_and_marital_status_2ndcycle_Absurd() -> int:
+def test_random_income_per_education_and_marital_status_2ndcycle_Absurd() -> None:
     education: str = '2n cycle'
     marital_status: str = 'Absurd'
     result: int = generator.random_income_per_education_and_marital_status(
@@ -94,9 +95,19 @@ def test_random_income_per_education_and_marital_status_2ndcycle_Absurd() -> int
     assert result < 3500
 
 
-def test_random_income_per_education_and_marital_status_PhD_Married() -> int:
+def test_random_income_per_education_and_marital_status_PhD_Married() -> None:
     education: str = 'PhD'
     marital_status: str = 'Married'
     result: int = generator.random_income_per_education_and_marital_status(
         education, marital_status)
     assert result > 4023 and result < 160803
+
+
+def test_date_parse_slash_format() -> None:
+    parsed_date: datetime.date = generator.date_parser('4/9/12')
+    assert parsed_date == datetime.datetime(2012, 9, 4)
+
+
+def test_date_parse_hyphen_format() -> None:
+    parsed_date: datetime.date = generator.date_parser('13-03-2014')
+    assert parsed_date == datetime.datetime(2014, 3, 13)
