@@ -97,6 +97,7 @@ def create_customer_embedded_list(records: list[customer.Customer]) -> list[list
         inner_result.append(record.num_web_purchases)
         inner_result.append(record.num_catalog_purchases)
         inner_result.append(record.num_store_purchases)
+        inner_result.append(record.num_web_visits_month)
         inner_result.append(int(record.accepted_cmp3))
         inner_result.append(int(record.accepted_cmp4))
         inner_result.append(int(record.accepted_cmp5))
@@ -454,21 +455,19 @@ def random_bool() -> bool:
 
 
 def write_to_csv(records: list[list[customer.Customer]]) -> None:
-    # header = []
+    header = ['ID', 'Year_Birth', 'Education', 'Marital_Status', 'Income', 'Kidhome', 'Teenhome', 'Dt_Customer', 'Recency', 'MntWines', 'MntFruits', 'MntMeatProducts', 'MntFishProducts', 'MntSweetProducts', 'MntGoldProds', 'NumDealsPurchases',
+              'NumWebPurchases', 'NumCatalogPurchases', 'NumStorePurchases', 'NumWebVisitsMonth', 'AcceptedCmp3', 'AcceptedCmp4', 'AcceptedCmp5', 'AcceptedCmp1', 'AcceptedCmp2', 'Complain', 'Z_CostContact', 'Z_Revenue', 'Response']
     with open('new_marketing_campaign.csv', 'w', encoding='UTF8') as f:
         writer = csv.writer(f)
+        writer.writerow(header)
         writer.writerows(records)
 
 
 customer_list = read_csv_into_customer_object('marketing_campaign.csv')
 customer_records: list[customer.Customer] = create_multiple_records(
-    customer_list, 5)
-
-# print(len(customer_records))
+    customer_list, 150)
 
 modified_results: list[customer.Customer] = create_customer_list_complete(
     customer_list)
 # write_to_csv(create_customer_embedded_list(modified_results))
 write_to_csv(create_customer_embedded_list(customer_records))
-
-# print(modified_results[0:2])
